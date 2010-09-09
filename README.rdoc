@@ -10,15 +10,50 @@ This is a wrapper for kbedell's Ruby implementation of the Nagios send_nsca C li
 
 == Usage
 
-You can use Nagios::Connection to set up a globally accessible Nagios server. For example:
+You can create a Nagios::Alerter and call #send_alert whenever you want to send a Nagios message. There are a couple ways you can set up the Alerter:
+
+=== Option 0: Using the constructor
+
+You can set up all of the details of your alerts when you create the Alerter:
+
+  @alerter = Nagios::Alerter.new(:hostname => "some.domain.com",
+                                 :service_name => "my-alerter",
+                                 :return_code => SendNsca::STATUS_OK,
+                                 :status => "TEST")
+  # ...
+  @alerter.send_alert(:host => "nagios.domain.com", :port => 5667)
+
+=== Option 1: Using the instance variables
+
+You can also use Ruby's setter methods to set or tweak your Alerter details:
+
+  @alerter = Nagios::Alerter.new
+  @alerter.hostname     = "some.domain.com"
+  @alerter.service_name = "my-alerter"
+  @alerter.return_code  = SendNsca::STATUS_OK
+  @alerter.status       = "TEST"
+  # ...
+  @alerter.send_alert(:host => "nagios.domain.com", :port => 5667)
+
+=== Option 2: Using the class method
+
+You don't have to create an Alerter if you don't want to, you can use the class method instead:
+
+  Nagios::Alerter.send_alert(:host => "nagios.domain.com",
+                             :port => 5667,
+                             :hostname => "some.domain.com",
+                             :service_name => "my-alerter",
+                             :return_code => SendNsca::STATUS_OK,
+                             :status => "TEST")
+
+== Global settings
+
+Most users have only one Nagios server, so having to explicitly pass the host and port information to ever #send_alert call can be very redundant. Instead, you can use Nagios::Connection to set up a globally accessible Nagios server. For example:
 
   Nagios::Connection.instance.host = "nagios.somedomain.com"
   Nagios::Connection.instance.port = 5667
 
-You can also provide the server details when you send the alert. You could use this in lieu of Nagios::Connection, or use it to send the alert to a different Nagios server:
-
-  alerter = Nagios::Alerter.new
-  alerter.send_alert(:host => "another.domain.com", :port => 1337, ...)
+Nagios::Connection is a Singleton class, so you need to use #instance when you access it. You can set it up in your project's environment and have all further calls to #send_alert use those settings (except when using the class method).
 
 == Making Changes
 
