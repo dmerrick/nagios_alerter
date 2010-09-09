@@ -18,7 +18,7 @@ module Nagios
 
     def send_alert(args = {})
       # host and port can be passed as parameters or set using Nagios::Connection
-      host, port = connection_params(args[:host], args[:port])
+      connection = connection_params(args[:host], args[:port])
 
       # check the parameters if we're missing any variables
       check_args(args) if [@hostname, @service_name, @return_code, @status].any? {|var| var.nil? }
@@ -29,8 +29,8 @@ module Nagios
       status       = args[:status]       || @status
 
       config = {
-                :nscahost => host,
-                :port => port,
+                :nscahost => connection[:host],
+                :port => connection[:port],
                 :hostname => hostname,
                 :service => service_name,
                 :return_code => return_code,

@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('nagios_alerter', '0.1.0') do |p|
+Echoe.new('nagios_alerter', '0.1.1') do |p|
   p.description    = "Send a heartbeat to a Nagios server"
   p.url            = "http://github.com/dmerrick/nagios_alerter"
   p.author         = "Dana Merrick"
