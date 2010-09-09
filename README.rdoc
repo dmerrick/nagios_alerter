@@ -48,7 +48,7 @@ You don't have to create an Alerter if you don't want to, you can use the class 
 
 == Global settings
 
-Most users have only one Nagios server, so having to explicitly pass the host and port information to ever #send_alert call can be very redundant. Instead, you can use Nagios::Connection to set up a globally accessible Nagios server. For example:
+Most users have only one Nagios server, so having to explicitly pass the host and port information to every #send_alert call can be very redundant. Instead, you can use Nagios::Connection to set up a globally accessible Nagios server. For example:
 
   Nagios::Connection.instance.host = "nagios.somedomain.com"
   Nagios::Connection.instance.port = 5667
