@@ -6,7 +6,7 @@ This is a wrapper for kbedell's Ruby implementation of the Nagios send_nsca C li
 
 == Install
 
-  gem install nagios-alerter --source http://gems.github.com
+  gem install nagios_alerter
 
 == Usage
 
